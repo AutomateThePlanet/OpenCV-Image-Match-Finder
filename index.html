@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Match Finder</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script async src="https://docs.opencv.org/4.8.0/opencv.js" onload="onOpenCvReady();"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/imageHandling.js"></script>
+    <script src="js/main.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Image Match Finder</h1>
+            <div id="status" class="status">OpenCV.js is loading...</div>
+        </header>
+
+        <div class="instruction">
+            <p>📎 Tip: You can directly paste images (Ctrl+V/⌘+V) anywhere on the page</p>
+        </div>
+        
+        <main class="input-grid">
+            <section class="image-section">
+                <h2>Template Image</h2>
+                <div class="image-container">
+                    <textarea id="locatorInput" 
+                             placeholder="Paste base64 image data for the template image" 
+                             disabled></textarea>
+                    <div class="button-group">
+                        <button id="pasteLocator" class="button paste-button" disabled>
+                            <span class="icon">📋</span> Paste
+                        </button>
+                        <button id="clearLocator" class="button clear-button" disabled>
+                            <span class="icon">🗑️</span> Clear
+                        </button>
+                    </div>
+                    <canvas id="locatorCanvas" class="preview-canvas"></canvas>
+                </div>
+            </section>
+            
+            <section class="image-section">
+                <h2>Source Image</h2>
+                <div class="image-container">
+                    <textarea id="contextInput" 
+                             placeholder="Paste base64 image data for the source image" 
+                             disabled></textarea>
+                    <div class="button-group">
+                        <button id="pasteContext" class="button paste-button" disabled>
+                            <span class="icon">📋</span> Paste
+                        </button>
+                        <button id="clearContext" class="button clear-button" disabled>
+                            <span class="icon">🗑️</span> Clear
+                        </button>
+                    </div>
+                    <canvas id="contextCanvas" class="preview-canvas"></canvas>
+                </div>
+            </section>
+        </main>
+
+        <div class="action-buttons">
+            <button id="findButton" class="button primary-button" disabled>
+                <span class="icon">🔍</span> Find Match
+            </button>
+            <button id="clearResults" class="button clear-button">
+                <span class="icon">🗑️</span> Clear Result
+            </button>
+        </div>
+
+        <section class="results-section">
+            <h2>Results</h2>
+            <canvas id="resultCanvas" class="result-canvas"></canvas>
+        </section>
+
+        <footer>
+            <p>Built with OpenCV.js | <a href="https://github.com/yourusername/image-match-finder" target="_blank">GitHub</a></p>
+        </footer>
+    </div>
+</body>
+</html>
