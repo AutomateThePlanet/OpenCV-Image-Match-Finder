@@ -22,9 +22,9 @@ A web-based tool that uses OpenCV.js to find a template image within a larger so
 
 ## Demo 🚀
 
-Access the live demo: [https://yourusername.github.io/image-match-finder](https://yourusername.github.io/image-match-finder)
+Access the live demo: [https://n1xan.github.io/OpenCV-Image-Match-Finder/](https://n1xan.github.io/OpenCV-Image-Match-Finder/)
 
-![Demo Screenshot](screenshot.png)
+![Demo Screenshot](image.png)
 
 ## How It Works 🛠️
 
