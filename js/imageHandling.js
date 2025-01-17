@@ -21,6 +21,21 @@ async function handleClipboardPaste(e, targetCanvas, targetInput) {
             reader.readAsDataURL(blob);
             return;
         }
+
+        if (item.type === 'text/plain') {
+            item.getAsString(async (text) => {
+                if (text.startsWith('data:image/')) {
+                    targetInput.value = text;
+                    try {
+                        await loadImageToCanvas(text, targetCanvas);
+                        updateStatus('Base64 image loaded successfully', 'success');
+                    } catch (error) {
+                        console.error('Error loading base64 image:', error);
+                        updateStatus('Invalid base64 image data', 'error');
+                    }
+                }
+            });
+        }
     }
 }
 
