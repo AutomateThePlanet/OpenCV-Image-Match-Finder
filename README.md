@@ -22,7 +22,7 @@ A web-based tool that uses OpenCV.js to find a template image within a larger so
 
 ## Demo 🚀
 
-Access the live demo: [https://n1xan.github.io/OpenCV-Image-Match-Finder/](https://n1xan.github.io/OpenCV-Image-Match-Finder/)
+Access the live demo: [https://AutomateThePlanet.github.io/OpenCV-Image-Match-Finder/](https://AutomateThePlanet.github.io/OpenCV-Image-Match-Finder/)
 
 ![Demo Screenshot](image.png)
 
@@ -39,8 +39,8 @@ The application uses OpenCV.js's template matching algorithm with the TM_CCOEFF_
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/image-match-finder.git
-cd image-match-finder
+git clone https://github.com/AutomateThePlanet/OpenCV-Image-Match-Finder.git
+cd OpenCV-Image-Match-Finder
 ```
 
 2. Serve the files using any HTTP server. For example, using Python:
