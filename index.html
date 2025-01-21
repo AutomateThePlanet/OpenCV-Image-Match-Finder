@@ -76,8 +76,20 @@
                     class="threshold-slider"
                 >
             </div>
+            <div class="threshold-container">
+                <label for="methodSelect"><span class="icon">🧮</span> Select Matching Method:</label>
+            </div>
+            <select id="methodSelect">
+                <option value="5">cv.TM_CCOEFF_NORMED</option>
+                <option value="4">cv.TM_CCOEFF</option>
+                <option value="3">cv.TM_CCORR_NORMED</option>
+                <option value="2">cv.TM_CCORR</option>
+                <option value="1">cv.TM_SQDIFF_NORMED</option>
+                <option value="0">cv.TM_SQDIFF</option>
+            </select>
         </section>
         
+
         <div class="action-buttons">
             <button id="findButton" class="button primary-button" disabled>
                 <span class="icon">🔍</span> Find Match

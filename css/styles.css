@@ -266,3 +266,14 @@ footer a:hover {
 .threshold-slider::-moz-range-thumb:active {
     transform: scale(1.1);
 }
+
+/* Select dropdown */
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}

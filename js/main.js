@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
         pasteLocator: document.getElementById('pasteLocator'),
         pasteContext: document.getElementById('pasteContext'),
         thresholdSlider: document.getElementById('threshold'),
-        thresholdValue: document.getElementById('thresholdValue')
+        thresholdValue: document.getElementById('thresholdValue'),
+        methodSelect: document.getElementById('methodSelect')
     };
 
     // Update threshold value display

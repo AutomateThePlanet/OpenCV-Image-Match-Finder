@@ -75,7 +75,8 @@ function findImageMatch(threshold = 0.8) {
         contextInput: document.getElementById('contextInput'),  
         locatorCanvas: document.getElementById('locatorCanvas'),  
         contextCanvas: document.getElementById('contextCanvas'),  
-        resultCanvas: document.getElementById('resultCanvas'),  
+        resultCanvas: document.getElementById('resultCanvas'),
+        methodSelect: document.getElementById('methodSelect')
     };  
   
     // Validate input  
@@ -88,7 +89,10 @@ function findImageMatch(threshold = 0.8) {
         if (typeof cv === 'undefined') {  
             throw new Error('OpenCV is not loaded yet. Please wait and try again.');  
         }  
-  
+        
+        // Get selected matching method
+        const method = parseInt(elements.methodSelect.value);
+
         // Load images  
         const template = cv.imread(elements.locatorCanvas);  
         const image = cv.imread(elements.contextCanvas);  
@@ -98,7 +102,7 @@ function findImageMatch(threshold = 0.8) {
         const mask = new cv.Mat();  
   
         // Perform template matching  
-        cv.matchTemplate(image, template, result, cv.TM_CCOEFF_NORMED, mask);  
+        cv.matchTemplate(image, template, result, method, mask);  
   
         // Find all matches above the threshold  
         const matches = [];  
