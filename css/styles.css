@@ -202,6 +202,7 @@ footer a:hover {
 }
 
 .threshold-container {
+    margin-top: 5px;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
