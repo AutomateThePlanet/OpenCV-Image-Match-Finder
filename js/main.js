@@ -10,8 +10,15 @@ document.addEventListener('DOMContentLoaded', function() {
         contextCanvas: document.getElementById('contextCanvas'),
         resultCanvas: document.getElementById('resultCanvas'),
         pasteLocator: document.getElementById('pasteLocator'),
-        pasteContext: document.getElementById('pasteContext')
+        pasteContext: document.getElementById('pasteContext'),
+        thresholdSlider: document.getElementById('threshold'),
+        thresholdValue: document.getElementById('thresholdValue')
     };
+
+    // Update threshold value display
+    elements.thresholdSlider.addEventListener('input', function() {
+        elements.thresholdValue.textContent = `${this.value}%`;
+    });
 
     // Global paste event listener
     document.addEventListener('paste', (e) => {
@@ -68,14 +75,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Find button handler
-    elements.findButton.addEventListener('click', findImageMatch);
+    elements.findButton.addEventListener('click', () => {
+        const threshold = parseInt(elements.thresholdSlider.value) / 100;
+        findImageMatch(threshold);
+    });
 
     // Add keyboard shortcuts
     document.addEventListener('keydown', (e) => {
         // Ctrl/Cmd + Enter to find match
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
             e.preventDefault();
-            findImageMatch();
+            const threshold = parseInt(elements.thresholdSlider.value) / 100;
+            findImageMatch(threshold);
         }
         
         // Escape to clear results
@@ -84,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateStatus('Results cleared', 'success');
         }
     });
-
+    
     // Drag and drop handlers
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
         document.addEventListener(eventName, preventDefaults, false);

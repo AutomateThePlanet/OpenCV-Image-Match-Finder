@@ -60,6 +60,24 @@
             </section>
         </main>
 
+        <!-- Add new threshold section -->
+        <section class="threshold-section">
+            <div class="threshold-container">
+                <label for="threshold">
+                    <span class="icon">🎯</span> Match Threshold: 
+                    <span id="thresholdValue" class="threshold-value">80%</span>
+                </label>
+                <input 
+                    type="range" 
+                    id="threshold" 
+                    min="0" 
+                    max="100" 
+                    value="80" 
+                    class="threshold-slider"
+                >
+            </div>
+        </section>
+        
         <div class="action-buttons">
             <button id="findButton" class="button primary-button" disabled>
                 <span class="icon">🔍</span> Find Match

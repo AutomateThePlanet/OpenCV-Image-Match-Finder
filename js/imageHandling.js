@@ -63,51 +63,90 @@ async function handlePasteButtonClick(targetInput, targetCanvas) {
     }
 }
 
-function findImageMatch() {
-    const elements = {
-        locatorInput: document.getElementById('locatorInput'),
-        contextInput: document.getElementById('contextInput'),
-        locatorCanvas: document.getElementById('locatorCanvas'),
-        contextCanvas: document.getElementById('contextCanvas'),
-        resultCanvas: document.getElementById('resultCanvas')
-    };
+function drawRectangle(canvas, rect, color = new cv.Scalar(255, 0, 0, 255), thickness = 2) {  
+    const point1 = new cv.Point(rect.x, rect.y);  
+    const point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);  
+    cv.rectangle(canvas, point1, point2, color, thickness);
+}  
+  
+function findImageMatch(threshold = 0.8) {
+    const elements = {  
+        locatorInput: document.getElementById('locatorInput'),  
+        contextInput: document.getElementById('contextInput'),  
+        locatorCanvas: document.getElementById('locatorCanvas'),  
+        contextCanvas: document.getElementById('contextCanvas'),  
+        resultCanvas: document.getElementById('resultCanvas'),  
+    };  
+  
+    // Validate input  
+    if (!elements.locatorInput.value || !elements.contextInput.value) {  
+        updateStatus('Please provide both template and source images.', 'error');  
+        return;  
+    }  
+  
+    try {  
+        if (typeof cv === 'undefined') {  
+            throw new Error('OpenCV is not loaded yet. Please wait and try again.');  
+        }  
+  
+        // Load images  
+        const template = cv.imread(elements.locatorCanvas);  
+        const image = cv.imread(elements.contextCanvas);  
 
-    if (!elements.locatorInput.value || !elements.contextInput.value) {
-        updateStatus('Please provide both template and source images.', 'error');
-        return;
-    }
-
-    try {
-        if (typeof cv === 'undefined') {
-            throw new Error('OpenCV is not loaded yet. Please wait and try again.');
-        }
-
-        let template = cv.imread(elements.locatorCanvas);
-        let image = cv.imread(elements.contextCanvas);
-        let result = new cv.Mat();
-        let mask = new cv.Mat();
-
-        cv.matchTemplate(image, template, result, cv.TM_CCOEFF_NORMED, mask);
-        
-        let minMax = cv.minMaxLoc(result);
-        let maxLoc = minMax.maxLoc;
-        
-        let color = new cv.Scalar(255, 0, 0, 255);
-        let point1 = new cv.Point(maxLoc.x, maxLoc.y);
-        let point2 = new cv.Point(maxLoc.x + template.cols, maxLoc.y + template.rows);
-        cv.rectangle(image, point1, point2, color, 2);
-
-        cv.imshow('resultCanvas', image);
-
-        // Cleanup
-        template.delete();
-        image.delete();
-        result.delete();
-        mask.delete();
-
-        updateStatus(`Match found! Confidence: ${(minMax.maxVal * 100).toFixed(2)}%`, 'success');
-    } catch (error) {
-        console.error('Error processing images:', error);
-        updateStatus(`Error processing images: ${error.message}`, 'error');
-    }
+        // Prepare result matrix  
+        const result = new cv.Mat();  
+        const mask = new cv.Mat();  
+  
+        // Perform template matching  
+        cv.matchTemplate(image, template, result, cv.TM_CCOEFF_NORMED, mask);  
+  
+        // Find all matches above the threshold  
+        const matches = [];  
+        for (let y = 0; y < result.rows; y++) {  
+            for (let x = 0; x < result.cols; x++) {  
+                const confidence = result.floatAt(y, x);  
+                if (confidence >= threshold) {  
+                    matches.push({ x, y, confidence });  
+                }  
+            }  
+        }  
+        // Scale factors for drawing rectangles  
+        const scaleX = elements.contextCanvas.width / image.cols;  
+        const scaleY = elements.contextCanvas.height / image.rows;  
+  
+        // Draw rectangles for all matches  
+        matches.forEach(match => {  
+            const rect = {  
+                x: match.x * scaleX,  
+                y: match.y * scaleY,  
+                width: template.cols * scaleX,  
+                height: template.rows * scaleY,  
+            };  
+            drawRectangle(image, rect);  
+        });  
+  
+        // Display result  
+        cv.imshow('resultCanvas', image);  
+  
+        // Update status  
+        if (matches.length > 0) {  
+            const confidenceLevels = matches.map(m => (m.confidence * 100).toFixed(2));  
+            const highestConfidence = Math.max(...confidenceLevels);  
+            updateStatus(  
+                `Match found! Confidence Levels: ${confidenceLevels.join(', ')}% (Highest: ${highestConfidence}%)`,  
+                'success'  
+            );  
+        } else {  
+            updateStatus('No matches found above the threshold.', 'error');  
+        }  
+  
+        // Cleanup  
+        template.delete();  
+        image.delete();  
+        result.delete();  
+        mask.delete();  
+    } catch (error) {  
+        console.error('Error processing images:', error);  
+        updateStatus(`Error processing images: ${error.message}`, 'error');  
+    }  
 }
