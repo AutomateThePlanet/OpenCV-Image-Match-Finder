@@ -159,8 +159,8 @@ MIT License - see [LICENSE](LICENSE) file for details
 
 ## Future Improvements 🚀
 
-- [ ] Add support for multiple match detection
-- [ ] Implement match threshold configuration
+- [x] Add support for multiple match detection
+- [x] Implement match threshold configuration
 - [ ] Add rotation-invariant matching
 - [ ] Include batch processing capabilities
 - [ ] Add image preprocessing options
